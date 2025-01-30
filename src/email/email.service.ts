@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { IEmailService } from './email.service.interface';
 
 export type SendEmailInput = {
   to: string;
@@ -7,7 +8,7 @@ export type SendEmailInput = {
 };
 
 @Injectable()
-export class EmailService {
+export class EmailService implements IEmailService {
   public sendEmail(input: SendEmailInput) {
     console.log(`Sending email to ${input.to} with subject ${input.subject}`);
   }
