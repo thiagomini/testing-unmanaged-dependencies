@@ -3,6 +3,8 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
+import { mockDeep } from 'jest-mock-extended';
+import { EmailService } from '../src/email/email.service';
 
 describe('SignUp user (e2e)', () => {
   let testingApp: INestApplication<App>;
@@ -10,7 +12,12 @@ describe('SignUp user (e2e)', () => {
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(EmailService)
+      .useFactory({
+        factory: () => mockDeep<EmailService>(),
+      })
+      .compile();
 
     testingApp = testingModule.createNestApplication();
     await testingApp.init();
@@ -28,5 +35,13 @@ describe('SignUp user (e2e)', () => {
       'accessToken',
       expect.stringMatching(jwtRegex),
     );
+
+    // how do we test an email was sent?
+    const mockedEmailService = testingApp.get(EmailService);
+    expect(mockedEmailService.sendEmail).toHaveBeenCalledWith({
+      to: 'new-user@mail.com',
+      subject: 'Welcome!',
+      content: expect.stringContaining('Welcome to our app!'),
+    });
   });
 });
