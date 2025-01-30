@@ -24,19 +24,22 @@ describe('SignUp user (e2e)', () => {
   });
 
   test('create a new user and sends a confirmation email', async () => {
+    // Arrange
     const server = testingApp.getHttpServer();
+
+    // Act
     const response = await request(server).post('/auth/signup').send({
       email: 'new-user@mail.com',
       password: 'password',
     });
 
+    // Assert
     const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
     expect(response.body).toHaveProperty(
       'accessToken',
       expect.stringMatching(jwtRegex),
     );
 
-    // how do we test an email was sent?
     const mockedEmailService = testingApp.get(EmailService);
     expect(mockedEmailService.sendEmail).toHaveBeenCalledWith({
       to: 'new-user@mail.com',
