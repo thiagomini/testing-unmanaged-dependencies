@@ -1,10 +1,13 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
 import { IPasswordService } from '../src/auth/password.service.interface';
+import {
+  createPasswordServiceStub,
+  PasswordServiceStub,
+} from '../src/auth/password.service.stub';
 import { IEmailService } from '../src/email/email.service.interface';
 import { EmailServiceSpy } from '../src/email/email.service.spy';
 
@@ -19,7 +22,7 @@ describe('SignUp user (e2e)', () => {
       .useClass(EmailServiceSpy)
       .overrideProvider(IPasswordService)
       .useFactory({
-        factory: () => mockDeep<IPasswordService>(),
+        factory: createPasswordServiceStub,
       })
       .compile();
 
@@ -56,7 +59,7 @@ describe('SignUp user (e2e)', () => {
     // Arrange
     const server = testingApp.getHttpServer();
     const passwordServiceStub =
-      testingApp.get<DeepMockProxy<IPasswordService>>(IPasswordService);
+      testingApp.get<PasswordServiceStub>(IPasswordService);
     passwordServiceStub.isPasswordInRainbowTable.mockResolvedValueOnce(true);
 
     // Act
