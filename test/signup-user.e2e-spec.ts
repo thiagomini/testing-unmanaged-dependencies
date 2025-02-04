@@ -65,7 +65,7 @@ describe('SignUp user (e2e)', () => {
     // Act
     const response = await request(server).post('/auth/signup').send({
       email: 'new-user@mail.com',
-      password: 'password',
+      password: 'weak',
     });
 
     // Assert
