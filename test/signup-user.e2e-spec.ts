@@ -7,9 +7,9 @@ import { IPasswordService } from '../src/auth/password.service.interface';
 import {
   createPasswordServiceStub,
   PasswordServiceStub,
-} from '../src/auth/password.service.stub';
+} from '../src/auth/test/password.service.stub';
 import { IEmailService } from '../src/email/email.service.interface';
-import { EmailServiceSpy } from '../src/email/email.service.spy';
+import { EmailServiceSpy } from '../src/email/test/email.service.spy';
 
 describe('SignUp user (e2e)', () => {
   let testingApp: INestApplication<App>;

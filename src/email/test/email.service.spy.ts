@@ -1,5 +1,5 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
-import { IEmailService, SendEmailInput } from './email.service.interface';
+import { IEmailService, SendEmailInput } from '../email.service.interface';
 
 @Injectable({
   scope: Scope.TRANSIENT,
