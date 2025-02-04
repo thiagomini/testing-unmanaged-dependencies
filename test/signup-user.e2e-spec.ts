@@ -57,7 +57,7 @@ describe('SignUp user (e2e)', () => {
     const server = testingApp.getHttpServer();
     const passwordServiceStub =
       testingApp.get<DeepMockProxy<IPasswordService>>(IPasswordService);
-    passwordServiceStub.isPasswordInRainbowTable.mockResolvedValue(true);
+    passwordServiceStub.isPasswordInRainbowTable.mockResolvedValueOnce(true);
 
     // Act
     const response = await request(server).post('/auth/signup').send({
