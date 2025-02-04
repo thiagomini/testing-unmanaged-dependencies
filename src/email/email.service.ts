@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { IEmailService } from './email.service.interface';
 
 export type SendEmailInput = {
@@ -9,7 +9,11 @@ export type SendEmailInput = {
 
 @Injectable()
 export class EmailService implements IEmailService {
+  private readonly logger = new Logger(EmailService.name);
+
   public sendEmail(input: SendEmailInput) {
-    console.log(`Sending email to ${input.to} with subject ${input.subject}`);
+    this.logger.log(
+      `Sending email to ${input.to} with subject ${input.subject}`,
+    );
   }
 }

@@ -4,6 +4,6 @@ export type SendEmailInput = {
   content: string;
 };
 
-export interface IEmailService {
-  sendEmail(input: SendEmailInput): void;
+export abstract class IEmailService {
+  abstract sendEmail(input: SendEmailInput): void;
 }

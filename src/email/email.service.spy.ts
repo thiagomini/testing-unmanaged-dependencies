@@ -1,4 +1,4 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable, Logger, Scope } from '@nestjs/common';
 import { IEmailService, SendEmailInput } from './email.service.interface';
 
 @Injectable({
@@ -6,9 +6,12 @@ import { IEmailService, SendEmailInput } from './email.service.interface';
 })
 export class EmailServiceSpy implements IEmailService {
   private readonly emailsSent: SendEmailInput[] = [];
+  private readonly logger = new Logger(EmailServiceSpy.name);
 
   sendEmail(input: SendEmailInput): void {
-    console.debug(`Sending email to ${input.to} with subject ${input.subject}`);
+    this.logger.debug(
+      `Sending email to ${input.to} with subject ${input.subject}`,
+    );
     this.emailsSent.push(input);
   }
 
